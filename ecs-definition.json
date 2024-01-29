@@ -1,0 +1,107 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:ap-southeast-2:057563355184:task-definition/auth-microservices-task-definition:10",
+    "containerDefinitions": [
+        {
+            "name": "auth-microservices-container",
+            "image": "057563355184.dkr.ecr.ap-southeast-2.amazonaws.com/auth-microservices:2f0821c0d0e4071f1e7a968d999cb4d0ab05c9ad",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "auth-microservices-container-5000-tcp",
+                    "containerPort": 5000,
+                    "hostPort": 5000,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "DB_NAME",
+                    "value": "prod_db"
+                },
+                {
+                    "name": "TOKEN_SECRET",
+                    "value": "uXvrzaSxHjQR6odVKoI4KamSqyTEl5iq"
+                },
+                {
+                    "name": "REFRESH_TOKEN_SECRET",
+                    "value": "NSW3FUowfdGh9KkI8oF14AGb8P4Eqy3l"
+                },
+                {
+                    "name": "DB_USERNAME",
+                    "value": "root"
+                },
+                {
+                    "name": "DB_HOST",
+                    "value": "3.25.55.132"
+                },
+                {
+                    "name": "DB_PASSWORD",
+                    "value": "Warumhang123"
+                }
+            ],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-create-group": "true",
+                    "awslogs-group": "/ecs/auth-microservices-task-definition",
+                    "awslogs-region": "ap-southeast-2",
+                    "awslogs-stream-prefix": "ecs"
+                },
+                "secretOptions": []
+            }
+        }
+    ],
+    "family": "auth-microservices-task-definition",
+    "executionRoleArn": "arn:aws:iam::057563355184:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "revision": 10,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "1024",
+    "memory": "2048",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "registeredAt": "2023-12-02T12:13:39.613Z",
+    "registeredBy": "arn:aws:iam::057563355184:root",
+    "tags": []
+}
