@@ -8,7 +8,7 @@ app.listen(port, host, async () => {
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
     /* eslint-disable no-console */
-    console.log(`Listening: http://localhost:${port}`);
+    console.log(`Listening: http://0.0.0.0:${port}`);
     /* eslint-enable no-console */
   } catch (error) {
     console.error('Unable to connect to the database:', error);
