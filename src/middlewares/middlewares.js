@@ -1,4 +1,3 @@
-import jwt from 'jsonwebtoken';
 
 export function notFound(req, res, next) {
     res.status(404);
@@ -15,34 +14,4 @@ export function errorHandler(err, req, res, next) {
         message: err.message,
         stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack,
     });
-}
-
-
-export const authenticate = (requiredRoles) =>  {
-    return (req, res, next) => {
-        const authHeader = req.headers['authorization'];
-        const token = authHeader && authHeader.split(' ')[1];
-
-        if (!token)
-            return res.status(401).json({ message: 'Access denied. No token provided.' });
-
-        // verify the token
-        jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-            // throw error if the token does not match
-            if (err)
-                return res.status(401).json({ message: 'Invalid token' });
-
-            // check the roles for specific resource access
-            if (requiredRoles && requiredRoles.length > 0) {
-                const userRoles = decoded.roles; // decode from JWT 
-                
-                const hasRequiredRole = requiredRoles.some(role => userRoles.includes(role));
-                if (!hasRequiredRole)
-                    return res.status(403).json({ message: 'Access denied.' });
-            }
-            // authenticate to access resource if the roles match
-            req.user = decoded;
-            next();
-        });
-    }
 }
