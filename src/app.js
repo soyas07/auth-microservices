@@ -2,8 +2,8 @@ import express from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import cors from 'cors';
-import cookieParser from 'cookie-parser';
 import { rateLimit } from 'express-rate-limit';
+import cookieParser from 'cookie-parser';
 
 import 'dotenv/config';
 import { notFound, errorHandler } from './middlewares/middlewares.js';
@@ -19,11 +19,15 @@ const limiter = rateLimit({
 });
 
 // middlewares
+app.use(cookieParser());
 app.use(morgan('dev'));
-app.use(cors());
+app.use(cors({
+  origin: true,  // Change this to match your client origin
+  credentials: true,  // Allow credentials (cookies) to be sent
+  exposedHeaders: ["Set-Cookie"]
+}));
 app.use(helmet());
 app.use(express.json());
-app.use(cookieParser());
 app.use(limiter);
 
 // routes

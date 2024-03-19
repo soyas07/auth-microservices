@@ -26,21 +26,20 @@ This is a simple authentication microservice built using Express.js, Node.js, an
 
 ## APIs List
 ## POST: /api/v1/token 
-- This API endpoint generates an access token and a refresh token based on the provided roles.
+- This API endpoint generates an access token and a refresh token based on the provided roles and set the token and refresh token into set-cookie response header.
 
 - **Method:** `POST`
 - **Endpoint:** `/api/v1/token`
 - **Request Body:**
 ```json
 {
-  "roles": ["admin", "user"]
+  "roles": ["admin", "user",...]
 }
 ```
 - **Response:**
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaWF0IjoxNzA2ODQ3OTcyLCJleHAiOjE3MDY4NDg4NzJ9.N2MnSZSdJgTS2L-Cfui4YRFOte2T9YS3vbNtaGB76f8",
-  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaWF0IjoxNzA2ODQ3OTcyLCJleHAiOjE3MDc0NTI3NzJ9.kWsiKPjN08DbzQVbh1NwoEABTbvYcqDTBLYMpQRtAbE"
+  "message": "ok"
 }
 ```
 
@@ -56,6 +55,22 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJhZG1pb
 - **Request Body:**
 ```json
 no request body
+```
+- **Response:**
+```json
+{
+  "message": "ok"
+}
+```
+
+## POST: /api/v1/renewToken 
+- This API endpoint renews the token using the refresh token and set the token into the set-cookie response header.
+
+- **Method:** `GET`
+- **Endpoint:** `/api/v1/renewToken`
+- **Request Body:**
+```json
+no request parameters
 ```
 - **Response:**
 ```json

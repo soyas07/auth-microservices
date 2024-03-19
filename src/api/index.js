@@ -1,5 +1,5 @@
 import express from 'express';
-import { generateToken } from '../controllers/auth.js';
+import { generateToken, renewToken } from '../controllers/auth.js';
 import jwt from 'jsonwebtoken';
 
 const router = express.Router();
@@ -10,6 +10,8 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/renewToken', renewToken);
+
 // get a new token and refresh token for a new/existing user
 router.post('/token', (req, res) => {
     const { roles } = req.body;
@@ -18,8 +20,10 @@ router.post('/token', (req, res) => {
 
     const token = generateToken('access', { roles });
     const refreshToken = generateToken('refresh', { roles });
+    res.cookie('refreshToken', refreshToken, { path: '/', httpOnly: true, secure: true, maxAge: 7 * 24 * 60 * 60 * 1000, sameSite: 'none' }); // Set the refresh token in cookies
+    res.cookie('token', token, { httpOnly: true, path: '/', secure: true, maxAge: 60 * 60 * 1000, sameSite: 'none' }); // Set the token in cookies
 
-    res.status(200).json({ token, refreshToken });
+    res.status(200).json({ message: 'ok' });
 });
 
 
@@ -41,7 +45,6 @@ router.post('/auth', (req,res) => {
         // check the roles for specific resource access
         if (roles && roles.length > 0) {
             const userRoles = decoded.roles; // decode from JWT 
-            
             const hasRequiredRole = roles.some(role => userRoles.includes(role));
             if (!hasRequiredRole)
                 return res.status(403).json({ message: 'Access denied.' });
