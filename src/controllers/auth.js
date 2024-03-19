@@ -14,7 +14,7 @@ export const renewToken = async (req, res) => {
         const token = jwt.sign({ user: decoded.user }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
 
         res.cookie('token', token, { httpOnly: true, path: '/', secure: true, maxAge: 60 * 60 * 1000, sameSite: 'none' }); // Set the token in cookies
-        res.status(200).json({ message: 'OK' });
+        res.status(200).json({ message: 'ok' });
     } catch (error) {
         res.status(400).send({ error: 'Invalid refresh token' });
     }
