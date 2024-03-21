@@ -24,7 +24,6 @@ app.use(morgan('dev'));
 app.use(cors({
   origin: true,  // Change this to match your client origin
   credentials: true,  // Allow credentials (cookies) to be sent
-  exposedHeaders: ["Set-Cookie"]
 }));
 app.use(helmet());
 app.use(express.json());
