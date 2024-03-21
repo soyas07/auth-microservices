@@ -10,25 +10,30 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/renewToken', renewToken);
+router.post('/renewToken', renewToken);
 
 // get a new token and refresh token for a new/existing user
-router.post('/token', (req, res) => {
-    const { roles } = req.body;
-    if (!roles)
-        res.status(400).json({ error: "Please define the roles" });
-
-    const token = generateToken('access', { roles });
-    const refreshToken = generateToken('refresh', { roles });
-    res.cookie('refreshToken', refreshToken, { path: '/', httpOnly: true, secure: true, maxAge: 7 * 24 * 60 * 60 * 1000, sameSite: 'none' }); // Set the refresh token in cookies
-    res.cookie('token', token, { httpOnly: true, path: '/', secure: true, maxAge: 60 * 60 * 1000, sameSite: 'none' }); // Set the token in cookies
-
-    res.status(200).json({ message: 'ok' });
+router.post('/token', async (req, res) => {
+    try {
+        const { roles } = req.body;
+        if (!roles) {
+            console.log({ error: "Please define the roles" });
+            return res.status(400).json({ error: "Please define the roles" });
+        }
+    
+        const token = generateToken('access', { roles });
+        const refreshToken = generateToken('refresh', { roles });
+    
+        res.status(200).json({ token, refreshToken });    
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
 });
 
 
 // authenticate and verify token
-router.post('/auth', (req,res) => {
+router.post('/auth', async (req,res) => {
     const roles = ["admin", "user"];  // user roles has to be one of these
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];

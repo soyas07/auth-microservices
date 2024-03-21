@@ -39,7 +39,8 @@ This is a simple authentication microservice built using Express.js, Node.js, an
 - **Response:**
 ```json
 {
-  "message": "ok"
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaWF0IjoxNzA2ODQ3OTcyLCJleHAiOjE3MDY4NDg4NzJ9.N2MnSZSdJgTS2L-Cfui4YRFOte2T9YS3vbNtaGB76f8",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaWF0IjoxNzA2ODQ3OTcyLCJleHAiOjE3MDY4NDg4NzJ9.N2MnSZSdJgTS2L-Cfui4YRFOte2T9YS3vbNtaG"
 }
 ```
 
@@ -66,16 +67,18 @@ no request body
 ## POST: /api/v1/renewToken 
 - This API endpoint renews the token using the refresh token and set the token into the set-cookie response header.
 
-- **Method:** `GET`
+- **Method:** `POST`
 - **Endpoint:** `/api/v1/renewToken`
 - **Request Body:**
 ```json
-no request parameters
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaWF0IjoxNzA2ODQ3OTcyLCJleHAiOjE3MDY4NDg4NzJ9.N2MnSZSdJgTS2L-Cfui4YRFOte2T9YS3vbNtaGB76f8"
+}
 ```
 - **Response:**
 ```json
 {
-  "message": "ok"
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaWF0IjoxNzA2ODQ3OTcyLCJleHAiOjE3MDY4NDg4NzJ9.N2MnSZSdJgTS2L-Cfui4YRFOte2T9YS3vbNtaGB76f8"
 }
 ```
 

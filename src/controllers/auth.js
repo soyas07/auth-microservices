@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 export const renewToken = async (req, res) => {
-    let refreshToken = req.cookies.refreshToken;
+    let { refreshToken } = req.body;
 
     if (!refreshToken && req.cookies)
         refreshToken = req.cookies['refreshToken'];
@@ -13,8 +13,7 @@ export const renewToken = async (req, res) => {
         const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
         const token = jwt.sign({ user: decoded.user }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
 
-        res.cookie('token', token, { httpOnly: true, path: '/', secure: true, maxAge: 60 * 60 * 1000, sameSite: 'none' }); // Set the token in cookies
-        res.status(200).json({ message: 'ok' });
+        res.status(200).json({ token });
     } catch (error) {
         res.status(400).send({ error: 'Invalid refresh token' });
     }
