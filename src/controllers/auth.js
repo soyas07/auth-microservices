@@ -11,7 +11,8 @@ export const renewToken = async (req, res) => {
 
     try {
         const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-        const token = jwt.sign({ user: decoded.user }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
+        console.log(decoded.roles);
+        const token = generateToken('access', { roles: decoded.roles });
 
         res.status(200).json({ token });
     } catch (error) {
